@@ -1,0 +1,18 @@
+PATH
+  remote: .
+  specs:
+    clickatell_gw (0.0.1)
+      net-http-persistent (~> 2.9.4)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    net-http-persistent (2.9.4)
+    rake (10.1.1)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  clickatell_gw!
+  rake (~> 10.0)

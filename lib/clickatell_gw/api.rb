@@ -4,7 +4,6 @@ require 'net/http/persistent'
 require 'open-uri'
 require 'cgi'
 
-require 'pry'
 
 =begin
 
@@ -21,7 +20,7 @@ http://api.clickatell.com/http/sendmsg
 module ClickatellGW
   class API
     API_URL  = 'http://api.clickatell.com/http'
-    
+
     API_ID   = ClickatellGW::Login.login[:api_id]
     USER     = ClickatellGW::Login.login[:user]
     PASSWORD = ClickatellGW::Login.login[:password]
@@ -37,6 +36,8 @@ module ClickatellGW
     AUTH_RESPONSE_REGEX = /\AOK:\s[a-f0-9]+\z/i
     AUTH_SUB_REGEX      = /\AOK:\s/i
     
+
+    CONCAT_SMS_LENGTH_LIMIT = 153
     
 
     attr_reader :auth_url
@@ -62,10 +63,14 @@ module ClickatellGW
       data["to"]   = sanitize_destination number
       data["text"] = encode body
 
-      sms_uri = URI.parse(base_send_url_str + build_url_query(data))
-      
-      response = connection.request sms_uri
-      puts response
+      query = build_url_query(data)
+
+      if sms_uri = URI.parse(base_send_url_str + query)
+        response = connection.request sms_uri
+        puts response.body
+      else
+        false
+      end
 
     rescue => error
       puts error
@@ -83,6 +88,8 @@ module ClickatellGW
         query << equal
         query << value
       end
+
+      query << parts_count_param_str(data["text"])
 
       # the first one
       query.sub!("&", "?")
@@ -176,11 +183,24 @@ module ClickatellGW
 
 
 
-    def split_body(body)
+    def body_parts(body)
       if body.length > 160
-        # todo
+        q, r = body.length.divmod CONCAT_SMS_LENGTH_LIMIT
+        q += 1 if r > 0
+        return q
+      else
+        return 1
       end
-      body
+    end
+
+
+    def parts_count_param_str(body)
+      parts = body_parts body
+      if parts > 1
+        "&concat=#{parts}"
+      else
+        ""
+      end
     end
 
 

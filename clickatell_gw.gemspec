@@ -1,7 +1,7 @@
 
 # pushes the lib directory at the beginning of the ruby env $LOAD_PATH
-lib_path = File.expand_path("../lib", __FILE__)
-$LOAD_PATH.unshift(lib_path) unless $LOAD_PATH.include?(lib_path)
+# lib_path = File.expand_path("../lib", __FILE__)
+# $LOAD_PATH.unshift(lib_path) unless $LOAD_PATH.include?(lib_path)
 
 
 Gem::Specification.new do |s|
@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.summary     = %Q{summary - todo}
   s.description = %Q{description - todo}
 
-  #s.version     = ClickatellGw::Meta::VERSION
+  s.version     = "0.0.1"#ClickatellGw::Meta::VERSION
   #s.date        = ClickatellGw::Meta.date_string
 
   s.author      = 'Tommaso Pavese'
@@ -20,7 +20,7 @@ Gem::Specification.new do |s|
   s.required_ruby_version = '>= 2.0.0'
 
 
-  #s.add_runtime_dependency     'gemname',      '~> 0.0.0'
+  s.add_runtime_dependency 'net-http-persistent', '~> 2.9.4'
 
   s.add_development_dependency 'rake',          '~> 10.0'
 
