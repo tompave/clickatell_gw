@@ -1,0 +1,10 @@
+# OSX
+.Spotlight-V100
+.DS_Store
+.Trashes
+
+/.bundle
+test/tmp
+
+*.gem
+login.rb
