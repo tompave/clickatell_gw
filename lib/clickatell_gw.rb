@@ -1,2 +1,2 @@
-require 'clickatell_gw/login'
+require 'clickatell_gw/config'
 require 'clickatell_gw/api'

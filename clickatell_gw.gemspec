@@ -23,6 +23,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'net-http-persistent', '~> 2.9.4'
 
   s.add_development_dependency 'rake',          '~> 10.0'
+  s.add_development_dependency 'pry'
 
   #s.files        = Dir.glob('{bin,images,lib}/**/*') + %w[CHANGELOG.md LICENSE man/guard.1 man/guard.1.html README.md]
   s.executables  << 'clickatell_gw'

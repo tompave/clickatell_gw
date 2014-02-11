@@ -10,7 +10,7 @@ require 'cgi'
 http://api.clickatell.com/http/sendmsg
     ?callback=    "3"              static
     &mo=          MOB_ORIG         SMPP code, 1 means it's coming from a mobile
-    &from=        SENDER           sender number
+    &from=        @sender          ender number
     &session_id=  AUTH_ID          fetched from the API through authentication
     &to=          DESTINATION      destination number
     &text=        BODY             the text message... and the encoding is through the CGI module?
@@ -20,23 +20,15 @@ http://api.clickatell.com/http/sendmsg
 module ClickatellGW
   class API
     API_URL  = 'http://api.clickatell.com/http'
-
-    API_ID   = ClickatellGW::Login.login[:api_id]
-    USER     = ClickatellGW::Login.login[:user]
-    PASSWORD = ClickatellGW::Login.login[:password]
-    SENDER   = ClickatellGW::Login.login[:sender]
-
+    
     # using nil
     #INVALID_AUTH_ID = "00000000000000000000000000000000" # 32 chars
-
     
     MOB_ORIG = '1' # Mobile-originated = allow reply
     
-
     AUTH_RESPONSE_REGEX = /\AOK:\s[a-f0-9]+\z/i
     AUTH_SUB_REGEX      = /\AOK:\s/i
     
-
     CONCAT_SMS_LENGTH_LIMIT = 153
     
 
@@ -47,6 +39,8 @@ module ClickatellGW
     
 
     def initialize
+      load_config
+
       @auth_url = URI.parse auth_url_str
       #@send_url = URI.parse base_send_url_str
 
@@ -54,6 +48,13 @@ module ClickatellGW
       open_connection
     end
 
+
+    def load_config
+      @app_id   = ClickatellGW::Config.api_id
+      @user     = ClickatellGW::Config.user
+      @password = ClickatellGW::Config.password
+      @sender   = ClickatellGW::Config.sender
+    end
 
 
     def send_text(number: nil, body: nil)
@@ -147,7 +148,7 @@ module ClickatellGW
     # URL generation
 
     def auth_url_str
-      @auth_url_str ||= "#{API_URL}/auth?api_id=#{API_ID}&user=#{USER}&password=#{PASSWORD}"
+      @auth_url_str ||= "#{API_URL}/auth?api_id=#{@app_id}&user=#{@user}&password=#{@password}"
     end
 
 
@@ -163,7 +164,7 @@ module ClickatellGW
       @base_message_data ||= {
         "callback" => "3",
         "mo"       => MOB_ORIG,
-        "from"     => SENDER
+        "from"     => @sender
       }
 
       data = @base_message_data.dup

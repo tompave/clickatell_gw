@@ -8,3 +8,4 @@ test/tmp
 
 *.gem
 login.rb
+login
