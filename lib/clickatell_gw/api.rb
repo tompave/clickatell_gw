@@ -1,10 +1,3 @@
-# http://rubygems.org/gems/net-http-persistent
-# https://github.com/drbrain/net-http-persistent
-require 'net/http/persistent'
-require 'open-uri'
-require 'cgi'
-
-
 =begin
 
 http://api.clickatell.com/http/sendmsg

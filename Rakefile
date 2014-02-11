@@ -4,6 +4,7 @@ require 'rbconfig'
 
 OS = RbConfig::CONFIG['host_os']
 
+
 require 'rake/testtask'
 
 Rake::TestTask.new do |t|
