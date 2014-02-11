@@ -19,6 +19,8 @@ Or install it yourself as:
 
 ##Configuration
 
+Anywhere before creating an `ClickatellGW::API` object. In Rails, this can go in an initializer.
+
 ```ruby
 
 ClickatellGW.setup do |config|
@@ -35,10 +37,22 @@ end
 ```ruby
 require 'clickatell_gw'
 
-api = Clickatell::API.new
+api = ClickatellGW::API.new
 api.send_text body: "Hello World!", number: "44123456789"
 # => sent message id
 ```
+
+##Caveats
+
+The Cliclatell API can take up to 1-2 seconds to return a response.  
+If this is an issue (e.g. during an HTTP request), consider using a background worker.
+
+##ToDo
+
+* Send messages on a secondary thread.
+* Add logging
+
+
 
 ## Contributing
 
