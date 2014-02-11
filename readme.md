@@ -19,7 +19,7 @@ Or install it yourself as:
 
 ##Configuration
 
-Anywhere before creating an `ClickatellGW::API` object. In Rails, this can go in an initializer.
+Anywhere before creating a `ClickatellGW::API` object. In Rails, this can go in an initializer.
 
 ```ruby
 
